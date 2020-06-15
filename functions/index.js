@@ -4,27 +4,22 @@ const app = express();
 const admin = require('firebase-admin');
 
 var serviceAccount = require("../serviceAccountKey.json");
-<<<<<<< HEAD
+
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://nrc-7828-4ad7b.firebaseio.com/"
 });
 
-=======
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
+
 const database = admin.database();
 
 ///========================= Variables globales ===================///
 const dbPeople = "persons"; //Referencia al nodo en donde se van a guardar las personas
-<<<<<<< HEAD
 const dbSkills = "skills";
-=======
-
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
-///========================= Métodos internos ===================///
+//////////////////Metodos Internos///////////////////////////////
 function createPerson(person){
-  database.ref(dbPeople).push(person);  
+  database.ref(dbPeople).push(person);
 }
 
 function retrievePerson(id){
@@ -42,38 +37,32 @@ function deletePerson(id){
 function listPersons(){
   return database.ref(dbPeople).once('value');
 }
-
-<<<<<<< HEAD
-///////////////////////////////////////////////////////////////////
-function createSkills(skill){
-  database.ref(dbSkills).push(skill);  
+///SKILL
+function createSkills(id,skill){
+  database.ref(dbPeople).child(id).child(dbSkills).push(skill);
 }
 
-function retrieveSkills(id){
-  return database.ref(dbSkills).child(id).once('value');
+function deleteSkills(id,idSkill){
+  database.ref(dbPeople).child(id).child(dbSkills).child(idSkill).remove();
 }
 
-function updateSkills(id, skill){
-  database.ref(dbSkills).child(id).set(skill);
+function listSkill(id){
+  return database.ref(dbPeople).child(id).child(dbSkills).once('value');
+ ;
 }
 
-function deleteSkills(id){
-  database.ref(dbSkills).child(id).remove();
+function updateSkills(id,idSkills, skill){
+  database.ref(dbPeople).child(id).child(dbSkills).child(idSkills).set(skill);
+}
+function retrieveSkills(id,idSkills){
+  return database.ref(dbPeople).child(id).child(dbSkills).child(idSkills).once('value');
 }
 
-function listSkills(){
-  return database.ref(dbSkills).once('value');
-}
 
-/////////////////////////////////////////////////////////////////
-function listPersonsByAge(){
 
-}
 
-///========================= Funciones URLs ===================///
 
-=======
-///========================= Funciones URLs ===================///
+//========FUNCIONES URL============///
 app.post('/api/persons', function (req, res) {
   let varName = req.body['name'];
   let varAge = req.body['age'];
@@ -123,8 +112,7 @@ app.get('/api/person', function(req, res){
     }
   ).catch(err => console.log(err));
 });
-////////////////////////////////////////////////////////////
-//=====CRUD SKILLS======////
+///=====CRUD SKILLS======////
 app.post('/api/persons/:id/skills', function (req, res) {
  
   var skill = {
@@ -179,10 +167,8 @@ app.get('/api/persons/:id/skills/:idSkills', function(req, res){
 
 
 
+///========================= Funciones URLs ===================///
 
-
-=======
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
 app.get('/api/', function (req, res) {
   res.send('Bienvenid@s a Cloud Functions de Desarrollo Web Avanzado NRC 7828')
 });
