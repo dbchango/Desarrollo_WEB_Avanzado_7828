@@ -6,18 +6,10 @@ const admin = require('firebase-admin');
 var serviceAccount = require("../serviceAccountKey.json");
 <<<<<<< HEAD
 
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://nrc-7828-4ad7b.firebaseio.com/"
-});
+admin.initializeApp(functions.config().firebase);
 
 =======
 
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-  databaseURL: "https://desarrollo-web-5c200.firebaseio.com/"
-});
 
 <<<<<<< HEAD
 
