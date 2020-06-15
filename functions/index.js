@@ -4,34 +4,18 @@ const app = express();
 const admin = require('firebase-admin');
 
 var serviceAccount = require("../serviceAccountKey.json");
-<<<<<<< HEAD
 
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://desarrollo-web-5c200.firebaseio.com"
+});
 
-=======
-
-
-<<<<<<< HEAD
-
-const database =admin.database();
+const database = admin.database();
 
 //========VARIABLES GLOBALES=========//
 const dbPeople="persons";
 const dbSkills='skills';
 //========METODOS INTERNOS ========///
-=======
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
-const database = admin.database();
-
-///========================= Variables globales ===================///
-const dbPeople = "persons"; //Referencia al nodo en donde se van a guardar las personas
-<<<<<<< HEAD
-const dbSkills = "skills";
-=======
-
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
-///========================= Métodos internos ===================///
->>>>>>> 9df27c6a977d0b681c31e719300b9c17af0590e5
 function createPerson(person){
   database.ref(dbPeople).push(person);
 }
@@ -72,7 +56,6 @@ function retrieveSkills(id,idSkills){
   return database.ref(dbPeople).child(id).child(dbSkills).child(idSkills).once('value');
 }
 
-<<<<<<< HEAD
 
 
 
@@ -81,61 +64,11 @@ function retrieveSkills(id,idSkills){
 app.post('/api/persons', function (req, res) {
   let varName = req.body['name'];
   let varAge = req.body['age'];
-=======
-<<<<<<< HEAD
-///////////////////////////////////////////////////////////////////
-function createSkills(skill){
-  database.ref(dbSkills).push(skill);  
-}
-
-function retrieveSkills(id){
-  return database.ref(dbSkills).child(id).once('value');
-}
-
-function updateSkills(id, skill){
-  database.ref(dbSkills).child(id).set(skill);
-}
-
-function deleteSkills(id){
-  database.ref(dbSkills).child(id).remove();
-}
-
-function listSkills(){
-  return database.ref(dbSkills).once('value');
-}
-
-/////////////////////////////////////////////////////////////////
-function listPersonsByAge(){
-
-}
-
-///========================= Funciones URLs ===================///
-app.post('/api/persons', function (req, res) {
-  let varName = req.body['name'];
-  let varAge = req.body['age'];
-=======
-///========================= Funciones URLs ===================///
-app.post('/api/persons', function (req, res) {
-  let varName = req.body.name;
-  let varAge = req.body.age;
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
->>>>>>> 9df27c6a977d0b681c31e719300b9c17af0590e5
   var person = {
     name : varName,
     age : varAge  };
   createPerson(person);
-<<<<<<< HEAD
   return res.status(201).json({ message: "Success person was added.   :)" });
-=======
-  return res.status(201).json({ message: "Success person was added." });
-<<<<<<< HEAD
-});
-
-app.get('/api/persons/:id', function(req, res){
-  let varId = req.params.id;
-  retrievePerson(varId).then(result => {
-=======
->>>>>>> 9df27c6a977d0b681c31e719300b9c17af0590e5
 });
 
 app.get('/api/persons/:id', function(req, res){
@@ -165,38 +98,14 @@ app.delete('/api/persons/:id',function(req, res){
 
 app.get('/api/persons', function(req, res){
   listPersons().then(result => {
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
       return res.status(200).json(result); 
     }
   ).catch(err => console.log(err));
 });
-<<<<<<< HEAD
-
-app.put('/api/persons/:id', function (req, res) {
-  let varId = req.params.id;
-  let varName = req.body['name'];
-  let varAge = req.body['age'];
-  var person = {
-    name : varName,
-    age : varAge  };
-  updatePerson(varId, person);
-  return res.status(200).json({ message: "Success person was updated." });
-});
-
-app.delete('/api/persons/:id',function(req, res){
-  let varId = req.params.id;
-  deletePerson(varId);
-  return res.status(200).json({ message: "Success person was deleted." });
-});
-
-app.get('/api/persons', function(req, res){
-  listPersons().then(result => {
-=======
 
 app.get('/api/person', function(req, res){
   let varId = req.query.id;
   retrievePerson(varId).then(result => {
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
       return res.status(200).json(result); 
     }
   ).catch(err => console.log(err));
@@ -214,7 +123,6 @@ app.post('/api/persons/:id/skills', function (req, res) {
   return res.status(201).json({ message: "Success skill was added to person.   :)" });
 });
 
-<<<<<<< HEAD
 //eliminar
 app.delete('/api/persons/:id/skills/:idSkill',function(req, res){
   let varId=req.params.id;
@@ -242,29 +150,6 @@ app.get('/api/persons/:id/skills', function(req, res){
       return res.status(200).json(result); 
     }
   ).catch(err => console.log(err));
-=======
-<<<<<<< HEAD
-
-app.get('/api/person', function(req, res){
-  let varId = req.query.id;
-  retrievePerson(varId).then(result => {
-      return res.status(200).json(result); 
-    }
-  ).catch(err => console.log(err));
-});
-
-
-//////////////////////////////////////////
-
-
-
-
-
-=======
->>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
-app.get('/api/', function (req, res) {
-  res.send('Bienvenid@s a Cloud Functions de Desarrollo Web Avanzado NRC 7828')
->>>>>>> 9df27c6a977d0b681c31e719300b9c17af0590e5
 });
 
 //retrieve
