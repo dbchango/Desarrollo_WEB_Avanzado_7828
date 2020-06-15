@@ -4,17 +4,30 @@ const app = express();
 const admin = require('firebase-admin');
 
 var serviceAccount = require("../serviceAccountKey.json");
+<<<<<<< HEAD
 
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: "https://nrc-7828-4ad7b.firebaseio.com/"
 });
 
+=======
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: "https://desarrollo-web-5c200.firebaseio.com/"
+});
+
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
 const database = admin.database();
 
 ///========================= Variables globales ===================///
 const dbPeople = "persons"; //Referencia al nodo en donde se van a guardar las personas
+<<<<<<< HEAD
 const dbSkills = "skills";
+=======
+
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
 ///========================= Métodos internos ===================///
 function createPerson(person){
   database.ref(dbPeople).push(person);  
@@ -36,6 +49,7 @@ function listPersons(){
   return database.ref(dbPeople).once('value');
 }
 
+<<<<<<< HEAD
 ///////////////////////////////////////////////////////////////////
 function createSkills(skill){
   database.ref(dbSkills).push(skill);  
@@ -66,11 +80,25 @@ function listPersonsByAge(){
 app.post('/api/persons', function (req, res) {
   let varName = req.body['name'];
   let varAge = req.body['age'];
+=======
+///========================= Funciones URLs ===================///
+app.post('/api/persons', function (req, res) {
+  let varName = req.body.name;
+  let varAge = req.body.age;
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
   var person = {
     name : varName,
-    age : varAge  };
+    age : varAge  
+  };
   createPerson(person);
   return res.status(201).json({ message: "Success person was added." });
+<<<<<<< HEAD
+});
+
+app.get('/api/persons/:id', function(req, res){
+  let varId = req.params.id;
+  retrievePerson(varId).then(result => {
+=======
 });
 
 app.get('/api/persons/:id', function(req, res){
@@ -100,11 +128,47 @@ app.delete('/api/persons/:id',function(req, res){
 
 app.get('/api/persons', function(req, res){
   listPersons().then(result => {
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
+      return res.status(200).json(result); 
+    }
+  ).catch(err => console.log(err));
+});
+<<<<<<< HEAD
+
+app.put('/api/persons/:id', function (req, res) {
+  let varId = req.params.id;
+  let varName = req.body['name'];
+  let varAge = req.body['age'];
+  var person = {
+    name : varName,
+    age : varAge  };
+  updatePerson(varId, person);
+  return res.status(200).json({ message: "Success person was updated." });
+});
+
+app.delete('/api/persons/:id',function(req, res){
+  let varId = req.params.id;
+  deletePerson(varId);
+  return res.status(200).json({ message: "Success person was deleted." });
+});
+
+app.get('/api/persons', function(req, res){
+  listPersons().then(result => {
+=======
+
+// // Create and Deploy Your First Cloud Functions
+// // https://firebase.google.com/docs/functions/write-firebase-functions
+//
+app.get('/api/person', function(req, res){
+  let varId = req.query.id;
+  retrievePerson(varId).then(result => {
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
       return res.status(200).json(result); 
     }
   ).catch(err => console.log(err));
 });
 
+<<<<<<< HEAD
 
 app.get('/api/person', function(req, res){
   let varId = req.query.id;
@@ -121,6 +185,8 @@ app.get('/api/person', function(req, res){
 
 
 
+=======
+>>>>>>> 1a5569ab04bb6bac623114d28bac559517d89f9f
 app.get('/api/', function (req, res) {
   res.send('Bienvenid@s a Cloud Functions de Desarrollo Web Avanzado NRC 7828')
 });
